@@ -7,17 +7,17 @@
       </video>
       <span v-if="show_play" @click="myPlay()">自定义播放按钮</span>
     </div>
-    <v-swiper :swiper_data="arr" :time="my_time" :item_width="item_width">
-    </v-swiper>
+    <v-swiper2 :swiper_data="arr1" :time="my_time1" :item_width="item_width1">
+    </v-swiper2>
   </div>
 </template>
 <script>
-import VSwiper from "@/components/VSwiper";
+import VSwiper2 from "@/components/VSwiper2";
 
 export default {
   name: "about",
   components: {
-    VSwiper
+    VSwiper2
   },
   data() {
     return {
@@ -26,7 +26,10 @@ export default {
       arr: [1, 2, 3, 4, 5, 6],
       item_width: 400,
       my_time: 5000,
-      videoID: ""
+      videoID: "",
+      arr1: [[1, 2, 3], [11, 22, 33], [111, 222, 333], [1111, 2222, 3333]],
+      item_width1: 400,
+      my_time1: 5000
     };
   },
   created() {},

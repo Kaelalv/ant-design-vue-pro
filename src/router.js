@@ -103,6 +103,12 @@ const router = new Router({
       ]
     },
     {
+      path: "/about",
+      name: "关于",
+      component: () =>
+        import(/* webpackChunkName: "about" */ "./views/About")
+    },
+    {
       path: "*",
       name: "404",
       component: NotFound
