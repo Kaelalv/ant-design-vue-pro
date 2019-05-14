@@ -9,7 +9,7 @@
         v-model="collapsed"
       >
         <div class="logo">Ant Design Vue Pro</div>
-        <SiderMenu></SiderMenu>
+        <SiderMenu :theme="navTheme"></SiderMenu>
       </a-layout-sider>
       <a-layout>
         <a-layout-header style="background: #fff; padding: 0">
