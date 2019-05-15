@@ -105,18 +105,17 @@ const router = new Router({
     {
       path: "/about",
       name: "关于",
-      component: () =>
-        import(/* webpackChunkName: "about" */ "./views/About")
+      component: () => import(/* webpackChunkName: "about" */ "./views/About")
     },
     {
       path: "*",
       name: "404",
       component: NotFound
-    },
+    }
   ]
 });
 router.beforeEach((to, from, next) => {
-  if(to.path != from.path){
+  if (to.path != from.path) {
     NProgress.start();
   }
   next();

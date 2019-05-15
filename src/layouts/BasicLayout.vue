@@ -13,11 +13,11 @@
       </a-layout-sider>
       <a-layout>
         <a-layout-header style="background: #fff; padding: 0">
-          <a-icon 
+          <a-icon
             class="trigger"
             @click="collapsed = !collapsed"
-            :type="collapsed ? 'menu-unfold':'menu-fold'"
-            >
+            :type="collapsed ? 'menu-unfold' : 'menu-fold'"
+          >
           </a-icon>
           <l-header />
         </a-layout-header>
@@ -49,7 +49,7 @@ export default {
   data() {
     return {
       collapsed: false
-    }
+    };
   },
   computed: {
     navTheme() {
@@ -58,14 +58,14 @@ export default {
     navLayout() {
       return this.$route.query.navLayout || "left";
     }
-  },
+  }
 };
 </script>
 
 <style lang="less" scoped>
 #components-layout-demo-side .logo {
   height: 32px;
-  background: rgba(255,255,255,.2);
+  background: rgba(255, 255, 255, 0.2);
   margin: 16px;
 }
 .trigger {
