@@ -37,7 +37,7 @@
 import LHeader from "./Header";
 import SiderMenu from "./SiderMenu";
 import LFooter from "./Footer";
-import SettingDrawer from "../components/SettingDrawer/index";
+import SettingDrawer from "@/components/SettingDrawer/index";
 
 export default {
   components: {
