@@ -1,19 +1,18 @@
 <template>
   <div style="width: 200px">
     <a-menu
-      :defaultSelectedKeys="[1]"
-      :defaultOpenKeys="[2]"
+      :selectedKeys="selectedKeys"
+      :openKeys.sync="openKeys"
       mode="inline"
       :theme="theme"
-      :inlineCollapsed="collapsed"
     >
       <template v-for="item in menuData">
-        <a-menu-item v-if="!item.children" :key="item.path">
+        <a-menu-item v-if="!item.children" :key="item.path" @click="() => $router.push({ path: item.path, query: $route.query })">
           <a-icon
-            v-if="item.meta.icon"
+            v-if="item.meta"
             :type="item.meta.icon"
           />
-          <span>{{ item.meta.title }}</span>
+          <span v-if="item.meta">{{ item.meta.title }}</span>
         </a-menu-item>
         <sub-menu v-else :menu-info="item" :key="item.path" />
       </template>
@@ -27,6 +26,7 @@
  * SubMenu1.vue https://github.com/vueComponent/ant-design-vue/blob/master/components/menu/demo/SubMenu1.vue
  * */
 import SubMenu from "./SubMenu";
+import { check } from "../utils/auth";
 export default {
   props: {
     theme: {
@@ -38,27 +38,43 @@ export default {
     "sub-menu": SubMenu
   },
   data() {
-    console.log(this.$router.options.routes)
+    this.selectedKeysMap = {};
+    this.openKeysMap = {};
     const menuData = this.getMenuData(this.$router.options.routes);
+    console.log(menuData)
     return {
       collapsed: false,
       list: [],
-      menuData
+      menuData,
+      selectedKeys: this.selectedKeysMap[this.$route.path],
+      openKeys: this.collapsed ? [] : this.openKeysMap[this.$route.path]
     };
+  },
+  watch: {
+    "$route.path": function (val) {
+      this.selectedKeys = this.selectedKeysMap[val];
+      this.openKeys = this.collapsed ? [] : this.openKeysMap[val];
+    }
   },
   methods: {
     toggleCollapsed() {
       this.collapsed = !this.collapsed;
     },
-    getMenuData(routes) {
+    getMenuData(routes = [], parentKeys = [], selectedKey) {
       const menuData = [];
-      routes.forEach(item => {
+      for(let item of routes){
+        if(item.meta && item.meta.authority && !check(item.meta.authority)){
+          break;
+        }
         if (item.name && !item.hideInMenu) {
+          this.openKeysMap[item.path] = parentKeys;
+          this.selectedKeysMap[item.path] = [selectedKey || item.path]
           const newItem = { ...item };
-          
           delete newItem.children;
           if (item.children && !item.hideChildrenInMenu) {
-            newItem.children = this.getMenuData(item.children);
+            newItem.children = this.getMenuData(item.children, [...parentKeys, item.path]);
+          } else {
+            this.getMenuData(item.children, selectedKey ? parentKeys : [...parentKeys, item.path], selectedKey || item.path);
           }
           menuData.push(newItem);
           console.log(menuData)
@@ -68,9 +84,9 @@ export default {
           item.children
         ) {
           menuData.push(...this.getMenuData(item.children));
-           console.log(menuData)
+          console.log(menuData)
         }
-      });
+      }
       return menuData;
     }
   }
