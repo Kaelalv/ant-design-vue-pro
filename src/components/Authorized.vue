@@ -11,7 +11,7 @@ export default {
     },
     render(h, context) {
         const { props, scopedSlots } = context;
-        console.log(scopedSlots.default())
+        console.log(scopedSlots.default());
         return check(props.authority) ? scopedSlots.default() : null;
     }
 }
